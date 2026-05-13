@@ -113,3 +113,11 @@ resource "aws_cloudfront_distribution" "website" {
 output "cloudfront_url" {
   value = "https://${aws_cloudfront_distribution.website.domain_name}"
 }
+
+resource "aws_route53_zone" "main" {
+  name = "andrewmccollin.tech"
+}
+
+output "nameservers" {
+  value = aws_route53_zone.main.name_servers
+}
