@@ -155,3 +155,23 @@ resource "aws_acm_certificate_validation" "website" {
   certificate_arn         = aws_acm_certificate.website.arn
   validation_record_fqdns = [for record in aws_route53_record.cert_validation : record.fqdn]
 }
+
+resource "aws_route53_record" "website" {
+  zone_id = aws_route53_zone.main.zone_id
+  name    = "andrewmccollin.tech"
+  type    = "A"
+
+  alias {
+    name                   = aws_cloudfront_distribution.website.domain_name
+    zone_id                = aws_cloudfront_distribution.website.hosted_zone_id
+    evaluate_target_health = false
+  }
+}
+
+resource "aws_route53_record" "www" {
+  zone_id = aws_route53_zone.main.zone_id
+  name    = "www.andrewmccollin.tech"
+  type    = "CNAME"
+  ttl     = 300
+  records = ["andrewmccollin.tech"]
+}
