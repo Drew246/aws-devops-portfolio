@@ -84,6 +84,7 @@ resource "aws_cloudfront_distribution" "website" {
 
   enabled             = true
   default_root_object = "index.html"
+  aliases = ["andrewmccollin.tech", "www.andrewmccollin.tech"]
 
   default_cache_behavior {
     allowed_methods        = ["GET", "HEAD"]
@@ -106,7 +107,9 @@ resource "aws_cloudfront_distribution" "website" {
   }
 
   viewer_certificate {
-    cloudfront_default_certificate = true
+  acm_certificate_arn      = aws_acm_certificate_validation.website.certificate_arn
+  ssl_support_method       = "sni-only"
+  minimum_protocol_version = "TLSv1.2_2021"
   }
 }
 
@@ -120,4 +123,35 @@ resource "aws_route53_zone" "main" {
 
 output "nameservers" {
   value = aws_route53_zone.main.name_servers
+}
+
+resource "aws_acm_certificate" "website" {
+  domain_name               = "andrewmccollin.tech"
+  subject_alternative_names = ["www.andrewmccollin.tech"]
+  validation_method         = "DNS"
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "aws_route53_record" "cert_validation" {
+  for_each = {
+    for dvo in aws_acm_certificate.website.domain_validation_options : dvo.domain_name => {
+      name   = dvo.resource_record_name
+      record = dvo.resource_record_value
+      type   = dvo.resource_record_type
+    }
+  }
+
+  zone_id = aws_route53_zone.main.zone_id
+  name    = each.value.name
+  type    = each.value.type
+  records = [each.value.record]
+  ttl     = 60
+}
+
+resource "aws_acm_certificate_validation" "website" {
+  certificate_arn         = aws_acm_certificate.website.arn
+  validation_record_fqdns = [for record in aws_route53_record.cert_validation : record.fqdn]
 }
