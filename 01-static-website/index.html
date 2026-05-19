@@ -3,36 +3,318 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Andrew McCollin | AWS & DevOps Portfolio</title>
+    <title>Andrew McCollin | AWS & DevOps Engineer</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             background-color: #0f1117;
             color: #ffffff;
+        }
+
+        /* NAVIGATION */
+        nav {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            height: 100vh;
-            margin: 0;
+            padding: 20px 60px;
+            border-bottom: 1px solid #1e2130;
+            position: sticky;
+            top: 0;
+            background-color: #0f1117;
+            z-index: 100;
         }
-        .container {
-            text-align: center;
-        }
-        h1 {
-            font-size: 2.5rem;
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: bold;
             color: #FF9900;
         }
-        p {
-            font-size: 1.2rem;
+
+        .nav-links a {
             color: #cccccc;
+            text-decoration: none;
+            margin-left: 30px;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #FF9900;
+        }
+
+        /* HERO */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 100px 20px;
+            border-bottom: 1px solid #1e2130;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .hero h1 span {
+            color: #FF9900;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #aaaaaa;
+            max-width: 600px;
+            margin-top: 15px;
+            line-height: 1.8;
+        }
+
+        .hero-buttons {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background-color: #FF9900;
+            color: #0f1117;
+            font-weight: bold;
+        }
+
+        .btn-primary:hover {
+            background-color: #e68a00;
+        }
+
+        .btn-secondary {
+            border: 1px solid #FF9900;
+            color: #FF9900;
+        }
+
+        .btn-secondary:hover {
+            background-color: #FF9900;
+            color: #0f1117;
+        }
+
+        /* SECTIONS */
+        section {
+            padding: 80px 60px;
+            border-bottom: 1px solid #1e2130;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        section h2 {
+            font-size: 1.8rem;
+            color: #FF9900;
+            margin-bottom: 40px;
+        }
+
+        /* SKILLS */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .skill-card {
+            background-color: #1e2130;
+            border: 1px solid #2a2f45;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            font-size: 0.95rem;
+            color: #cccccc;
+            transition: border-color 0.3s;
+        }
+
+        .skill-card:hover {
+            border-color: #FF9900;
+        }
+
+        /* PROJECTS */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .project-card {
+            background-color: #1e2130;
+            border: 1px solid #2a2f45;
+            border-radius: 8px;
+            padding: 30px;
+            transition: border-color 0.3s;
+        }
+
+        .project-card:hover {
+            border-color: #FF9900;
+        }
+
+        .project-card h3 {
+            font-size: 1.1rem;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .project-card p {
+            font-size: 0.9rem;
+            color: #aaaaaa;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .tag {
+            background-color: #2a2f45;
+            color: #FF9900;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        .project-card a {
+            color: #FF9900;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .project-card a:hover {
+            text-decoration: underline;
+        }
+
+        /* CONTACT */
+        .contact-links {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .contact-links a {
+            color: #cccccc;
+            text-decoration: none;
+            font-size: 1rem;
+            border: 1px solid #2a2f45;
+            padding: 12px 24px;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+
+        .contact-links a:hover {
+            border-color: #FF9900;
+            color: #FF9900;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #555555;
+            font-size: 0.85rem;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Andrew McCollin</h1>
-        <p>AWS & DevOps Engineer in Training</p>
-        <p>Building hands-on projects with AWS and Terraform.</p>
+
+    <!-- NAVIGATION -->
+    <nav>
+        <div class="logo">Andrew McCollin</div>
+        <div class="nav-links">
+            <a href="#about">About</a>
+            <a href="#skills">Skills</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <div class="hero">
+        <h1>Hi, I'm <span>Andrew McCollin</span></h1>
+        <h1>AWS & DevOps Engineer</h1>
+        <p>Building scalable, secure cloud infrastructure on AWS. Currently pursuing the AWS Solutions Architect Associate certification.</p>
+        <div class="hero-buttons">
+            <a href="#projects" class="btn btn-primary">View My Work</a>
+            <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+        </div>
     </div>
+
+    <!-- ABOUT -->
+    <section id="about">
+        <h2>About Me</h2>
+        <p style="color: #aaaaaa; line-height: 1.9; max-width: 700px; font-size: 1rem;">
+            I'm an AWS & DevOps engineer in training, currently building hands-on cloud projects while studying for the AWS Solutions Architect Associate certification. I'm passionate about Infrastructure as Code, automation, and building reliable systems on AWS. Based in Barbados, open to remote opportunities worldwide.
+        </p>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+        <h2>Skills</h2>
+        <div class="skills-grid">
+            <div class="skill-card">AWS S3</div>
+            <div class="skill-card">AWS CloudFront</div>
+            <div class="skill-card">AWS Route 53</div>
+            <div class="skill-card">AWS ACM</div>
+            <div class="skill-card">AWS IAM</div>
+            <div class="skill-card">Terraform</div>
+            <div class="skill-card">Git & GitHub</div>
+            <div class="skill-card">AWS CLI</div>
+        </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+        <h2>Projects</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <h3>Static Website — S3 + CloudFront + Route 53</h3>
+                <p>Hosted a static portfolio website on S3, distributed globally via CloudFront CDN, secured with ACM SSL certificate and custom domain managed through Route 53. All infrastructure provisioned with Terraform.</p>
+                <div class="project-tags">
+                    <span class="tag">S3</span>
+                    <span class="tag">CloudFront</span>
+                    <span class="tag">Route 53</span>
+                    <span class="tag">ACM</span>
+                    <span class="tag">Terraform</span>
+                </div>
+                <a href="https://github.com/Drew246/aws-devops-portfolio" target="_blank">View on GitHub →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+        <h2>Get In Touch</h2>
+        <div class="contact-links">
+            <a href="mailto:andrew.k.mccollin@gmail.com">📧 Email</a>
+            <a href="https://linkedin.com/in/andrew-mccollin" target="_blank">💼 LinkedIn</a>
+            <a href="https://github.com/Drew246" target="_blank">🐙 GitHub</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>© 2026 Andrew McCollin. Built with AWS & Terraform.</p>
+    </footer>
+
 </body>
 </html>
