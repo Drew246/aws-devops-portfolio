@@ -29,7 +29,7 @@ def home():
         <body>
             <div class="container">
                 <h1>Andrew McCollin</h1>
-                <p>AWS & DevOps Portfolio — Containerised App running on ECS Fargate</p>
+                <p>AWS & DevOps Portfolio — Deployed via CI/CD pipeline on ECS Fargate</p>
             </div>
         </body>
     </html>
