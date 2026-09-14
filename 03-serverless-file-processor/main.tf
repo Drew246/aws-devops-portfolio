@@ -159,7 +159,13 @@ resource "aws_lambda_function_url" "presign" {
     max_age           = 86400
   }
 }
-
+# Allow public invocation of presign Lambda (required since Oct 2025)
+resource "aws_lambda_permission" "presign_public_invoke" {
+  statement_id  = "FunctionURLInvokeFunction"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.presign.function_name
+  principal     = "*"
+}
 output "presign_function_url" {
   value = aws_lambda_function_url.presign.function_url
 }
