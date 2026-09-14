@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Processor | Andrew McCollin</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0f1117;
+            color: #ffffff;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 60px;
+            border-bottom: 1px solid #1e2130;
+            position: sticky;
+            top: 0;
+            background-color: #0f1117;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #FF9900;
+        }
+
+        .nav-links a {
+            color: #cccccc;
+            text-decoration: none;
+            margin-left: 30px;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #FF9900;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 60px 20px 40px;
+            border-bottom: 1px solid #1e2130;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            color: #FF9900;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            color: #aaaaaa;
+            font-size: 1rem;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background-color: #1e2130;
+            border: 1px solid #2a2f45;
+            border-radius: 8px;
+            padding: 40px;
+            margin-bottom: 30px;
+        }
+
+        .card h2 {
+            color: #FF9900;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        label {
+            display: block;
+            color: #aaaaaa;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px 14px;
+            background-color: #0f1117;
+            border: 1px solid #2a2f45;
+            border-radius: 6px;
+            color: #ffffff;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 14px;
+            background-color: #0f1117;
+            border: 1px solid #2a2f45;
+            border-radius: 6px;
+            color: #ffffff;
+            font-size: 0.95rem;
+            height: 180px;
+            resize: vertical;
+            margin-bottom: 20px;
+            font-family: Arial, sans-serif;
+        }
+
+        button {
+            background-color: #FF9900;
+            color: #0f1117;
+            font-weight: bold;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #e68a00;
+        }
+
+        button:disabled {
+            background-color: #555;
+            cursor: not-allowed;
+        }
+
+        .status {
+            margin-top: 20px;
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .status.loading {
+            background-color: #1e2130;
+            border: 1px solid #2a2f45;
+            color: #aaaaaa;
+            display: block;
+        }
+
+        .status.success {
+            background-color: #0d2d1a;
+            border: 1px solid #1a5c35;
+            color: #4caf50;
+            display: block;
+        }
+
+        .status.error {
+            background-color: #2d0d0d;
+            border: 1px solid #5c1a1a;
+            color: #f44336;
+            display: block;
+        }
+
+        .result-card {
+            display: none;
+            background-color: #1e2130;
+            border: 1px solid #2a2f45;
+            border-radius: 8px;
+            padding: 40px;
+        }
+
+        .result-card h2 {
+            color: #FF9900;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        pre {
+            background-color: #0f1117;
+            border: 1px solid #2a2f45;
+            border-radius: 6px;
+            padding: 20px;
+            color: #cccccc;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            margin-bottom: 20px;
+        }
+
+        .download-link {
+            color: #FF9900;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .download-link:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #555555;
+            font-size: 0.85rem;
+            border-top: 1px solid #1e2130;
+            margin-top: 60px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo"><a href="/" style="color: #FF9900; text-decoration: none;">Andrew McCollin</a></div>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/#projects">Projects</a>
+            <a href="/#contact">Contact</a>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <h1>Serverless File Processor</h1>
+        <p>Type or paste text below. It will be uploaded to AWS S3, processed by a Lambda function, and the result will appear on this page — all serverless.</p>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <h2>Upload & Process</h2>
+            <label for="fileName">Filename</label>
+            <input type="text" id="fileName" value="myfile.txt" />
+
+            <label for="fileContent">Text Content</label>
+            <textarea id="fileContent" placeholder="Type or paste your text here..."></textarea>
+
+            <button id="uploadBtn" onclick="uploadFile()">Upload & Process</button>
+
+            <div class="status" id="status"></div>
+        </div>
+
+        <div class="result-card" id="resultSection">
+            <h2>Processed Result</h2>
+            <pre id="result"></pre>
+            <a class="download-link" id="downloadLink" href="#" target="_blank">View Processed File →</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 Andrew McCollin. Built with AWS Lambda, S3 and Terraform.</p>
+    </footer>
+
+    <script>
+        const PRESIGN_URL = 'https://lz44ke5cxtjuqrtqsb4gpyrxtm0afugv.lambda-url.us-east-1.on.aws/';
+        const OUTPUT_BUCKET = 'andrewmccollin-pipeline-output';
+        const OUTPUT_REGION = 'us-east-1';
+
+        async function uploadFile() {
+            const content = document.getElementById('fileContent').value;
+            const filename = document.getElementById('fileName').value;
+            const statusEl = document.getElementById('status');
+            const btn = document.getElementById('uploadBtn');
+
+            if (!content.trim()) {
+                statusEl.className = 'status error';
+                statusEl.textContent = 'Please enter some text to upload.';
+                return;
+            }
+
+            btn.disabled = true;
+            statusEl.className = 'status loading';
+            statusEl.textContent = 'Getting upload URL from Lambda...';
+
+            try {
+                const presignResponse = await fetch(PRESIGN_URL + '?filename=' + encodeURIComponent(filename));
+                const presignData = await presignResponse.json();
+
+                statusEl.textContent = 'Uploading file to S3...';
+
+                const uploadResponse = await fetch(presignData.uploadUrl, {
+                    method: 'PUT',
+                    body: content,
+                    headers: { 'Content-Type': 'text/plain' }
+                });
+
+                if (!uploadResponse.ok) throw new Error('Upload failed: ' + uploadResponse.status);
+
+                statusEl.className = 'status loading';
+                statusEl.textContent = 'File uploaded! Waiting for Lambda to process...';
+
+                const outputUrl = 'https://' + OUTPUT_BUCKET + '.s3.' + OUTPUT_REGION + '.amazonaws.com/processed-' + filename;
+
+                await new Promise(resolve => setTimeout(resolve, 5000));
+
+                const resultResponse = await fetch(outputUrl);
+                if (resultResponse.ok) {
+                    const resultText = await resultResponse.text();
+                    document.getElementById('result').textContent = resultText;
+                    document.getElementById('downloadLink').href = outputUrl;
+                    document.getElementById('resultSection').style.display = 'block';
+                    statusEl.className = 'status success';
+                    statusEl.textContent = 'File processed successfully!';
+                } else {
+                    document.getElementById('downloadLink').href = outputUrl;
+                    document.getElementById('result').textContent = 'Processing may still be in progress. Click the link below to check.';
+                    document.getElementById('resultSection').style.display = 'block';
+                    statusEl.className = 'status success';
+                    statusEl.textContent = 'File uploaded! Processing may take a few more seconds.';
+                }
+            } catch (error) {
+                statusEl.className = 'status error';
+                statusEl.textContent = 'Error: ' + error.message;
+            }
+
+            btn.disabled = false;
+        }
+    </script>
+
+</body>
+</html>
